@@ -1,22 +1,15 @@
 package chatware;
 //========================== Imports =========================================//
-
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,10 +19,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 //========================== Class ===========================================//
-
 public class Client extends Application {
-
     //========================== Declerations ================================// 
     @FXML
     private ComboBox connectionBox;
@@ -46,87 +38,53 @@ public class Client extends Application {
     @FXML
     private ProgressIndicator indicator;
     private String ipConnected;
-    Thread t1;
-
     //========================== Start ===L====================================//    
     @Override
     public void start(Stage primaryStage) throws Exception {
-       
         Parent p = FXMLLoader.load(getClass().getResource("ClientDesign.fxml"));
         Scene mainScene = new Scene(p);
         primaryStage.setScene(mainScene);
         primaryStage.setTitle("Chat Client");
         primaryStage.show();
-        
     }
-
     //========================== Main Method =================================// 
     public static void main(String[] args) {
-
         launch(args);
-    }
-    public void checkLoop() {
-        Timer timer = new Timer();
-    timer.scheduleAtFixedRate(new TimerTask() {
-        @Override
-        public void run() {
-           // Platform.runLater(() -> connectionBox.hide());
-            Platform.runLater(() -> connectionBox.getItems().add("Item"));
-            //Platform.runLater(() -> connectionBox.show());
-            Platform.runLater(() -> connectionBox.setVisibleRowCount(30));
-        }
-    }, 0, 2000);
-    }
-    public void connectionBoxOnShown(){
-        connectionBox.hide();
-        connectionBox.show();
     }
     //========================== Intialize For XML ===========================//
     @FXML
-    protected void initialize() throws UnknownHostException, SocketException {
-        
-        checkLoop();
-        //loop2();
-        //IPGetter ipg = new IPGetter(connectionBox, 10);
-        //getIP();
+    protected void initialize() {
+//        scanButtonAction();
+//        ipg.getIP(connectionBox, 1, 3);
+//        ipg.getIP(connectionBox, 4, 7);
+//        ipg.getIP(connectionBox, 8, 11);
+//        ipg.getIP(connectionBox, 12, 15);
+//        ipg.getIP(connectionBox, 16, 19);
+//        ipg.getIP(connectionBox, 20, 29);
+//        ipg.getIP(connectionBox, 30, 39);
+//        ipg.getIP(connectionBox, 40, 49);
+//        ipg.getIP(connectionBox, 50, 69);
+//        ipg.getIP(connectionBox, 70, 99);
+//        ipg.getIP(connectionBox, 100, 149);
+//        ipg.getIP(connectionBox, 150, 199);
+//        ipg.getIP(connectionBox, 200, 255);
     }
-    static final int max = 20;
-    ObservableList<String> strings1 = FXCollections.observableArrayList();
-
-    public void getIP() throws UnknownHostException {
-        ObservableList<String> ips = connectionBox.getItems();
-        Task task = new Task<Void>() {
-            @Override
-            public Void call() throws UnknownHostException {
-                InetAddress localhost = InetAddress.getLocalHost();
-                byte[] ip = localhost.getAddress();
-                for (int i = 10; i <= max; i++) {
-                    if (isCancelled()) {
-                        break;
-                    }
-                    try {
-                        ip[3] = (byte) i;
-                        InetAddress address = InetAddress.getByAddress(ip);
-                        if (address.isReachable(100)) {
-                            String s = address.getHostName();
-                            Platform.runLater(() -> connectionBox.getItems().add(s));
-                        }
-                    } catch (Exception e) {
-                        System.err.println(e);
-                    }
-                    updateProgress(i, max);
-                }
-                return null;
-            }
-        };
-        indicator.progressProperty().bind(task.progressProperty());
-        //indicator.progressProperty().bind(task.progressProperty().multiply(1).add(task1.progressProperty().multiply(0.5)));
-        Thread thread = new Thread(task);
-        thread.setDaemon(true);
-        thread.start();
-        //new Thread(task).start();
+    public void scanButtonAction() {
+        indicator.setVisible(true);
+        connectionBox.setDisable(true);
+        connectionBox.getItems().clear();
+        IPGetter ipg = new IPGetter();
+        for (int i = 1; i < 256; i++) {
+            ipg.getIP(connectionBox, i, i + 1);
+            i++;
+        }
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(5000), ae -> checking()));
+        timeline.play();
     }
-
+    public void checking() {
+        connectionBox.setDisable(false);
+        indicator.setVisible(false);
+    }
     //========================== Connect Button ==============================//
     public void connectButtonAction() {
         try {

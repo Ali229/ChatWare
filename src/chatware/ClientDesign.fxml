@@ -12,10 +12,10 @@
    <top>
       <HBox alignment="CENTER" maxWidth="-Infinity" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <ProgressIndicator fx:id="indicator" progress="0.0" />
-            <ComboBox fx:id="connectionBox" editable="true" onShown="#connectionBoxOnShown" promptText="Enter computer name or IP address:" />
-            <Button fx:id="connectButton" mnemonicParsing="false" onAction="#connectButtonAction" text="Connect" />
-            <Button fx:id="button2" mnemonicParsing="false" text="Button" />
+            <ProgressIndicator fx:id="indicator" prefHeight="30.0" prefWidth="30.0" visible="false" />
+            <Button fx:id="scanButton" mnemonicParsing="false" onAction="#scanButtonAction" text="Scan" />
+            <ComboBox fx:id="connectionBox" editable="true" promptText="Enter computer name or IP address:" />
+            <Button fx:id="connectButton" defaultButton="true" mnemonicParsing="false" onAction="#connectButtonAction" text="Connect" />
          </children>
          <padding>
             <Insets top="5.0" />
