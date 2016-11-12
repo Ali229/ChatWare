@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -11,9 +12,10 @@
    <top>
       <HBox alignment="CENTER" maxWidth="-Infinity" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <ProgressIndicator fx:id="indicator" maxHeight="30.0" maxWidth="30.0" progress="-2" />
-            <ComboBox fx:id="connectionBox" editable="true" promptText="Enter computer name or IP address:" />
+            <ProgressIndicator fx:id="indicator" progress="0.0" />
+            <ComboBox fx:id="connectionBox" editable="true" onShown="#connectionBoxOnShown" promptText="Enter computer name or IP address:" />
             <Button fx:id="connectButton" mnemonicParsing="false" onAction="#connectButtonAction" text="Connect" />
+            <Button fx:id="button2" mnemonicParsing="false" text="Button" />
          </children>
          <padding>
             <Insets top="5.0" />
