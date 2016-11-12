@@ -39,10 +39,8 @@ public class Client extends Application {
     private ProgressIndicator indicator;
     private String ipConnected;
     private String Something;
-    Thread t1; 
-    sasdas
-            fefef
-    //========================== Start =======================================//    
+    Thread t1;
+    //========================== Start ===L====================================//    
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent p = FXMLLoader.load(getClass().getResource("ClientDesign.fxml"));
