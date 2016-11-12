@@ -1,8 +1,0 @@
-# Nmap 7.31 scan initiated Sat Nov 12 13:36:42 2016 as: D:\Downloads\nmap-7.31-win32\nmap-7.31\nmap -sn -oG ip.txt 192.168.0.1-255
-Host: 192.168.0.1 ()	Status: Up
-Host: 192.168.0.10 ()	Status: Up
-Host: 192.168.0.11 ()	Status: Up
-Host: 192.168.0.12 ()	Status: Up
-Host: 192.168.0.14 ()	Status: Up
-Host: 192.168.0.19 ()	Status: Up
-# Nmap done at Sat Nov 12 13:36:44 2016 -- 255 IP addresses (6 hosts up) scanned in 2.91 seconds
