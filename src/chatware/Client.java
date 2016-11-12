@@ -42,6 +42,7 @@ public class Client extends Application {
     Thread t1;
     String something1;
     int nothing;
+    String newthing;
     //========================== Start =======================================//    
     @Override
     public void start(Stage primaryStage) throws Exception {
