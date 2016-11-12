@@ -12,7 +12,8 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -40,7 +41,6 @@ public class Client extends Application {
     private String ipConnected;
     private String Something;
     Thread t1;
-    sadsa
     //========================== Start ===L====================================//    
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -61,13 +61,24 @@ public class Client extends Application {
     //========================== Intialize For XML ===========================//
     @FXML
     protected void initialize() throws UnknownHostException, SocketException {
-//        Task<Integer> task = new Task<Integer>() {
-//    @Override 
-//    protected Integer call() throws Exception {
-//        
-//    }
-//};
-//indicator.progressProperty().bind(t1.run());
+//    final ServiceExample serviceExample = new ServiceExample();
+//
+//    //Here you tell your progress indicator is visible only when the service is runing
+//    indicator.visibleProperty().bind(serviceExample.runningProperty());
+//    serviceExample.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+//        @Override
+//        public void handle(WorkerStateEvent workerStateEvent) {
+//            String result = serviceExample.getValue();   //here you get the return value of your service
+//        }
+//    });
+//
+//    serviceExample.setOnFailed(new EventHandler<WorkerStateEvent>() {
+//        @Override
+//        public void handle(WorkerStateEvent workerStateEvent) {
+//            //DO stuff on failed
+//        }
+//    });
+//    serviceExample.restart(); //here you start your service
    t1 = new Thread(){
             @Override
             public void run(){
@@ -75,7 +86,7 @@ public class Client extends Application {
                 System.out.println("Initialize ran");
         try {
             connectionBox.getEditor().setText(Inet4Address.getLocalHost().getHostAddress());
-            Enumeration e = NetworkInterface.getNetworkInterfaces();
+Enumeration e = NetworkInterface.getNetworkInterfaces();
 while(e.hasMoreElements())
 {
     NetworkInterface n = (NetworkInterface) e.nextElement();
@@ -83,8 +94,8 @@ while(e.hasMoreElements())
     while (ee.hasMoreElements())
     {
         InetAddress i = (InetAddress) ee.nextElement();
-        connectionBox.getItems().add(i);
-        System.out.println(i.getHostName());
+        connectionBox.getItems().add(i.getCanonicalHostName());
+        System.out.println(i.getHostAddress());
     }
 }
         } catch (Exception e) {
