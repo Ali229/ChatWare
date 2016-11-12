@@ -40,6 +40,7 @@ public class Client extends Application {
     private String ipConnected;
     private String Something;
     Thread t1;
+    String something1;
     //========================== Start =======================================//    
     @Override
     public void start(Stage primaryStage) throws Exception {
