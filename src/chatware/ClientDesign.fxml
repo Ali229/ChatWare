@@ -15,7 +15,7 @@
             <ProgressIndicator fx:id="indicator" prefHeight="30.0" prefWidth="30.0" visible="false" />
             <Button fx:id="scanButton" mnemonicParsing="false" onAction="#scanButtonAction" text="Scan" />
             <ComboBox fx:id="connectionBox" editable="true" promptText="Enter computer name or IP address:" />
-            <Button fx:id="connectButton" defaultButton="true" mnemonicParsing="false" onAction="#connectButtonAction" text="Connect" />
+            <Button fx:id="connectButton" mnemonicParsing="false" onAction="#connectButtonAction" text="Connect" />
          </children>
          <padding>
             <Insets top="5.0" />
@@ -23,7 +23,7 @@
       </HBox>
    </top>
    <center>
-      <TextArea fx:id="messageArea" editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TextArea fx:id="messageArea" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </BorderPane.margin></TextArea>
@@ -31,12 +31,12 @@
    <bottom>
       <HBox alignment="CENTER" maxWidth="-Infinity" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <TextArea fx:id="inputArea" disable="true" prefHeight="40.0">
+            <TextArea fx:id="inputArea" disable="true" onKeyPressed="#inputAreaKeyPressed" onKeyReleased="#inputAreaKeyReleased" prefHeight="40.0" wrapText="true">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </TextArea>
-            <Button fx:id="sendButton" disable="true" mnemonicParsing="false" text="Send">
+            <Button fx:id="sendButton" disable="true" mnemonicParsing="false" onAction="#sendButtonAction" text="Send">
                <HBox.margin>
                   <Insets />
                </HBox.margin>

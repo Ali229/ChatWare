@@ -4,9 +4,9 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.Inet4Address;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -18,6 +18,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 //========================== Class ===========================================//
@@ -54,21 +56,28 @@ public class Client extends Application {
     //========================== Intialize For XML ===========================//
     @FXML
     protected void initialize() {
-//        scanButtonAction();
-//        ipg.getIP(connectionBox, 1, 3);
-//        ipg.getIP(connectionBox, 4, 7);
-//        ipg.getIP(connectionBox, 8, 11);
-//        ipg.getIP(connectionBox, 12, 15);
-//        ipg.getIP(connectionBox, 16, 19);
-//        ipg.getIP(connectionBox, 20, 29);
-//        ipg.getIP(connectionBox, 30, 39);
-//        ipg.getIP(connectionBox, 40, 49);
-//        ipg.getIP(connectionBox, 50, 69);
-//        ipg.getIP(connectionBox, 70, 99);
-//        ipg.getIP(connectionBox, 100, 149);
-//        ipg.getIP(connectionBox, 150, 199);
-//        ipg.getIP(connectionBox, 200, 255);
+        connectionBox.getEditor().setText("ALI-ASPIRE");
     }
+    //========================== [Enter] Key To Send/Connect =================//
+    public void inputAreaKeyPressed(KeyEvent e) {
+        if (e.getCode() == KeyCode.ENTER) {
+            e.consume();
+            if (inputArea.getText().length() > 0) {
+                sendButtonAction();
+                inputArea.setText("");
+            }
+        } else {
+        }
+    }
+    //========================== Disables and Enables Send Button ============//
+    public void inputAreaKeyReleased() {
+        if (inputArea.getText().isEmpty() == false) {
+            sendButton.setDisable(false);
+        } else {
+            sendButton.setDisable(true);
+        }
+    }
+    //========================== Scan Button =================================//
     public void scanButtonAction() {
         indicator.setVisible(true);
         connectionBox.setDisable(true);
@@ -85,13 +94,8 @@ public class Client extends Application {
         connectionBox.setDisable(false);
         indicator.setVisible(false);
     }
-    //========================== Connect Button ==============================//
+    //========================== Connection Outgoing =========================//
     public void connectButtonAction() {
-        try {
-            System.out.println(Inet4Address.getLocalHost().getHostAddress());
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
         try {
             Socket s1 = new Socket(connectionBox.getEditor().getText(), 8000);
             OutputStream sout1 = s1.getOutputStream();
@@ -103,12 +107,36 @@ public class Client extends Application {
             inputArea.setDisable(false);
             inputArea.requestFocus();
             ipConnected = connectionBox.getEditor().getText();
-            sendButton.setDisable(false);
         } catch (Exception e) {
             System.err.println(e);
             messageArea.appendText("Connection Failed! Check computer name/IP..." + "\n");
             inputArea.setDisable(true);
+        }
+    }
+    //========================== Message Outgoing ============================//
+    public void sendButtonAction() {
+        try {
+            DateFormat df = new SimpleDateFormat("hh:mm a");
+            Date dateobj = new Date();
+            messageArea.appendText("You: " + inputArea.getText() + "\n");
+            messageArea.appendText(df.format(dateobj) + "\n");
+            Socket s1 = new Socket(ipConnected, 8001);
+            OutputStream sout = s1.getOutputStream();
+            PrintStream pout = new PrintStream(sout);
+            pout.println(inputArea.getText());
+            pout.flush();
+            s1.close();
             sendButton.setDisable(true);
+            inputArea.setText(null);
+            inputArea.requestFocus();
+        } catch (Exception er) {
+            messageArea.appendText("Message failed, check connection..." + "\n");
+            inputArea.setText(null);
+            connectButton.setDisable(false);
+            sendButton.setDisable(true);
+            inputArea.setEditable(false);
+            //connectedBox.setCaretPosition(connectedBox.getDocument().getLength());
+            //connectedBox.setEditable(true);
         }
     }
 }
