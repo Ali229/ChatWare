@@ -39,11 +39,7 @@ public class Client extends Application {
     private ProgressIndicator indicator;
     private String ipConnected;
     private String Something;
-    Thread t1;
-    String something1;
-    int nothing;
-    String newthing;
-    int something;
+    Thread t1; 
     //========================== Start =======================================//    
     @Override
     public void start(Stage primaryStage) throws Exception {
