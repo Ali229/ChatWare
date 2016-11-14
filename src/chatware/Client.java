@@ -6,6 +6,9 @@ import java.net.Inet4Address;
 import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -30,7 +33,7 @@ public class Client extends Application {
     @FXML
     private Button connectButton;
     @FXML
-    private Button button2;
+    private Button scanButton;
     @FXML
     private TextArea messageArea;
     @FXML
@@ -80,6 +83,8 @@ public class Client extends Application {
     //========================== Scan Button =================================//
     public void scanButtonAction() {
         indicator.setVisible(true);
+        scanButton.setDisable(true);
+        connectButton.setDisable(true);
         connectionBox.setDisable(true);
         connectionBox.getItems().clear();
         IPGetter ipg = new IPGetter();
@@ -91,6 +96,8 @@ public class Client extends Application {
         timeline.play();
     }
     public void checking() {
+        connectButton.setDisable(false);
+        scanButton.setDisable(false);
         connectionBox.setDisable(false);
         indicator.setVisible(false);
     }
@@ -135,8 +142,6 @@ public class Client extends Application {
             connectButton.setDisable(false);
             sendButton.setDisable(true);
             inputArea.setEditable(false);
-            //connectedBox.setCaretPosition(connectedBox.getDocument().getLength());
-            //connectedBox.setEditable(true);
         }
     }
 }
